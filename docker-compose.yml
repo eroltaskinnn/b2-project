@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.local
+    command: ./scripts/docker-entrypoint.sh
+    env_file: ./app/core/.env
+    volumes:
+    - ./app:/usr/src/app
+    ports:
+    - 8000:8000
+    links:
+    - postgres
+    - redis
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.local
+    command: ./scripts/celery_worker.sh
+    env_file: ./app/core/.env
+    volumes:
+    - ./app:/usr/src/app
+    depends_on:
+    - postgres
+    - redis
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.local
+    command: ./scripts/celery_beat.sh
+    env_file: ./app/core/.env
+    volumes:
+    - ./app:/usr/src/app
+    depends_on:
+    - postgres
+    - redis
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: test3
+      PGDATA: /data/postgres
+    volumes:
+       - psql_data:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: always
+    ports:
+      - 1025:1025
+      - 8025:8025
+
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - redis_data:/data
+
+volumes:
+  psql_data:
+  redis_data:
