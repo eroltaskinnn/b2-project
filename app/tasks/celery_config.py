@@ -36,12 +36,11 @@ def create_celery_app():
         beat_schedule={
             'daily-overdue-reminders': {
                 'task': 'tasks.library_tasks.send_overdue_reminders',
-                'schedule': crontab(minute='*/1'),  # Run daily at 9 AM
+                 'schedule': crontab(minute=0, hour=9),  # Run daily at 9 AM
             },
             'weekly-checkout-report': {
                 'task': 'tasks.library_tasks.generate_weekly_report',
-                # 'schedule': crontab(day_of_week='monday', hour=0, minute=0),  # Run Monday at midnight
-                'schedule': crontab(minute='*/1'),  # Run Monday at midnight
+                'schedule': crontab(day_of_week='monday', hour=0, minute=0),  # Run Monday at midnight
             }
         }
     )
