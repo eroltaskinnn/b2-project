@@ -1,5 +1,6 @@
 from email.mime.multipart import MIMEMultipart
 
+from dotenv import load_dotenv
 from sqlalchemy import func
 
 from crud.checkout_crud import CheckoutCRUD
@@ -8,19 +9,18 @@ from models.book import Book
 from models.checkout import Checkout
 from datetime import datetime, timedelta
 
-
-from core.config import settings
 from core.database import SessionLocal
 from tasks.celery_config import celery_app
 from core.logger import logger
 from utils.email_sender import EmailSender
 from utils.weekly_report_saver import WeeklyReportSaver
 
+from core.config import settings
+
 
 @celery_app.task
 def send_overdue_reminders():
     logger.info(f"starting to send overdue reminders")
-
     """Send email reminders for overdue books"""
     db = SessionLocal()
     try:

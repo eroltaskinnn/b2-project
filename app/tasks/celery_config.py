@@ -5,13 +5,17 @@ from celery.schedules import crontab
 
 from dotenv import load_dotenv
 
+from core.config import settings
+
+
 load_dotenv()
+
 
 # Create Celery instance
 def create_celery_app():
     # Use environment variable or default to redis
-    broker_url = os.getenv('CELERY_BROKER_URL', 'redis://redis:6379/0')
-    backend_url = os.getenv('CELERY_BACKEND_URL', 'redis://redis:6379/0')
+    broker_url = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')
+    backend_url = os.getenv('CELERY_BACKEND_URL', 'redis://localhost:6379/0')
 
     celery_app = Celery(
         'worker',
@@ -43,7 +47,6 @@ def create_celery_app():
     )
 
     return celery_app
-
 
 # Create Celery app instance
 celery_app = create_celery_app()

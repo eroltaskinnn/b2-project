@@ -10,6 +10,9 @@ BASE_DIR = Path(__file__).parent.resolve()
 
 class Settings(BaseSettings):
     """Application settings."""
+    class Config:
+        env_file = f"{BASE_DIR}/.env"
+        env_file_encoding = "utf-8"
 
     ENV: str = "dev"
     HOST: str = "0.0.0.0"
@@ -22,13 +25,21 @@ class Settings(BaseSettings):
     RELOAD: bool = False
 
     # Database settings
-    DB_HOST: str = os.getenv("DB_HOST", "postgres")
+    DB_HOST: str = os.getenv("DB_HOST", "localhost")
     DB_PORT: int = int(os.getenv("DB_PORT", 5432))
-    DB_USER: str = os.getenv("DB_USER", "your_user")
-    DB_PASS: str = os.getenv("DB_PASS", "your_pass")
-    _DB_BASE: str = os.getenv("DB_BASE", "your_db")
+    DB_USER: str = os.getenv("DB_USER", "admin")
+    DB_PASS: str = os.getenv("DB_PASS", "admin")
+    _DB_BASE: str = os.getenv("DB_BASE", "test3")
     DB_ECHO: bool = False
 
+    MAILHOG_HOST: str = os.getenv("MAIL_SERVER", "localhost")
+    MAILHOG_PORT: str = os.getenv("MAIL_SERVER_PORT", "1025")
+
+    CELERY_BROKER_URL: str = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')
+    CELERY_BACKEND_URL: str = os.getenv('CELERY_BACKEND_URL', 'redis://localhost:6379/0')
+
+    MAIL_SENDER="your_sender_email@domain.com"
+    SYSTEM_ADMIN="your_admin_email@domain.com"
     @property
     def DB_BASE(self):
         return self._DB_BASE
@@ -46,15 +57,8 @@ class Settings(BaseSettings):
         """
 
         return f"postgresql://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_BASE}"
-    class Config:
-        env_file = f"{BASE_DIR}/.env"
-        env_file_encoding = "utf-8"
 
-    MAILHOG_HOST = os.getenv("MAIL_SERVER", "localhost")
-    MAILHOG_PORT = os.getenv("MAIL_SERVER_PORT", "1025")
-    MAIL_SENDER="your_sender_email@domain.com"
 
-    SYSTEM_ADMIN="your_admin_email@domain.com"
 
 class TestSettings(Settings):
     @property

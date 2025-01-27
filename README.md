@@ -1,31 +1,15 @@
 # Library Example Project
 
-[//]: # (Project includes:)
-
-[//]: # ()
-[//]: # (-   `fastapi`)
-
-[//]: # (-   `sqlmodel`)
-
-[//]: # (-   `alembic`)
-
-[//]: # (##)
-
-[//]: # (## Models)
-
-[//]: # ()
-[//]: # (Check db/models and migrations, there is one example.)
-
 ## Running the app using docker
 
-Setup env variables in `app/core/.env` (plese change it to your own values).
+Setup env variables in `app/core/.env` (please change it to your own values).
 ```bash
 RELOAD=True
-DB_HOST=postgres
+DB_HOST=your_db_host
 DB_PORT=5432
-DB_USER=admin
-DB_PASS=admin
-DB_BASE=test2
+DB_USER=your_db_user
+DB_PASS=your_db_pass
+DB_BASE=your_db_name
 MAIL_SERVER=mailhog
 MAIL_SERVER_PORT=1025
 CELERY_BACKEND_URL=redis://redis:6379
@@ -56,7 +40,15 @@ docker-compose exec web pytest .
 
 ## Running the project without docker
 
-#### Install
+#### Create  and activate venv (For Linux)
+
+```bash
+python -m venv myenv
+
+source myenv/bin/activate 
+
+```
+#### Install dependencies
 
 ```bash
 cd app/
@@ -65,27 +57,31 @@ pip install -r requirements.txt
 
 Setup env variables in `app/core/.env`.
 
-#### Run
+
+Apply migrations
+
+```bash
+cd app/
+alembic upgrade head
+```
+
+
+#### Run server
 
 ```bash
 cd app/
 python app/server.py
 ```
-
 Go to: http://localhost:8000/api/docs/
 
-
-
-Apply migrations
-
+#### Run celery for periodic tasks and beat
+Open a new terminal
 ```bash
-alembic upgrade head
+cd app/
+celery -A tasks.library_tasks worker --beat --loglevel=info
 ```
 
-#### Tests
+#### Extra
+Please make sure you have mailhog and redis installed on your machine if you are not working with docker .
 
-Run tests
 
-```bash
-pytest .
-```

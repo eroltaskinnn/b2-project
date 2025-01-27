@@ -1,10 +1,6 @@
 from api.router import api_router
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
-from core.config import settings
-
-
-from dotenv import load_dotenv
 
 
 def get_app() -> FastAPI:
@@ -27,6 +23,5 @@ def get_app() -> FastAPI:
 
     app.include_router(router=api_router, prefix="/api")
 
-    load_dotenv(settings.Config.env_file)
 
     return app
