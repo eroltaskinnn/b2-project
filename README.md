@@ -33,10 +33,6 @@ docker-compose logs -f --tail=100 web
 Go to: http://localhost:8000/api/docs/ for swagger
 
 
-```bash
-docker-compose exec web pytest .
-```
-
 ## Running the project without docker
 
 #### Create  and activate venv (For Linux)
