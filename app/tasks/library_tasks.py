@@ -1,8 +1,3 @@
-from email.mime.multipart import MIMEMultipart
-
-from dotenv import load_dotenv
-from sqlalchemy import func
-
 from crud.checkout_crud import CheckoutCRUD
 from models.patron import Patron
 from models.book import Book
