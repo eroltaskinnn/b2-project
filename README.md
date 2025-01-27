@@ -79,4 +79,4 @@ celery -A tasks.library_tasks worker --beat --loglevel=info
 #### Extra
 * Please make sure you have postgresql, mailhog and redis installed on your machine if you are not working with docker .
 * As python 3.10.0 is being used with docker this version is suggested to be installed on your machine.
-* please take a look at screenshots under docker folder for better experience
+* please take a look at screenshots under doc folder for better experience
