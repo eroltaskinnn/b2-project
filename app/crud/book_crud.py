@@ -5,6 +5,12 @@ from fastapi import HTTPException
 
 
 class BookCRUD:
+    """
+    A class to handle CRUD operations for books.
+
+    Attributes:
+        db (Session): The database session.
+    """
     def __init__(self, db: Session):
         self.db = db
 

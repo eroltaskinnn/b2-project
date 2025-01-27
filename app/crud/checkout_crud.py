@@ -10,6 +10,12 @@ from schema.checkout_schema import CheckoutCreate
 
 
 class CheckoutCRUD:
+    """
+    A class to handle CRUD operations for chekout operations.
+
+    Attributes:
+        db (Session): The database session.
+    """
     def __init__(self, db):
         self.db = db
 
