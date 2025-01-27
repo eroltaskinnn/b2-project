@@ -30,10 +30,6 @@ docker-compose logs -f --tail=100 web
 Go to: http://localhost:8000/api/docs/ for swagger
 
 
-#### Tests
-
-Run tests
-
 ```bash
 docker-compose exec web pytest .
 ```
@@ -82,6 +78,6 @@ celery -A tasks.library_tasks worker --beat --loglevel=info
 ```
 
 #### Extra
-Please make sure you have mailhog and redis installed on your machine if you are not working with docker .
-
+* Please make sure you have mailhog and redis installed on your machine if you are not working with docker .
+* As python 3.10.0 is being used with docker this version is suggested to be installed on your machine.
 
