@@ -1,4 +1,7 @@
 # Library Example Project
+The purpose of this project appears to be a library management system,
+which allows users to create, read, update, and delete patrons and books. The system also includes features such as asynchronous task processing using Celery and database migration management using Alembic.
+
 
 ## Running the app using docker
 
@@ -78,6 +81,6 @@ celery -A tasks.library_tasks worker --beat --loglevel=info
 ```
 
 #### Extra
-* Please make sure you have mailhog and redis installed on your machine if you are not working with docker .
+* Please make sure you have postgresql, mailhog and redis installed on your machine if you are not working with docker .
 * As python 3.10.0 is being used with docker this version is suggested to be installed on your machine.
 
